@@ -16,7 +16,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className="dark:bg-[#262626] dark:text-white">
-        <GoogleOAuthProvider clientId="316672298878-8jpv2m4flr0hmmbpdi1qbgp84roatp11.apps.googleusercontent.com">
+        <GoogleOAuthProvider clientId={process.env.NEXT_PUBLIC_CLIENT_ID || ""}>
           <Header/>
           {children}
         </GoogleOAuthProvider>
