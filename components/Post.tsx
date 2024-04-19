@@ -10,19 +10,24 @@ type PostProps = {
   noLike: number;
   noComment: number;
   caption: string;
+  index?: number
 };
 
-export default function Post({ name, time, liked, noLike, noComment, caption }: PostProps){
+export default function Post({ name, time, liked, noLike, noComment, caption, index }: PostProps){
 
   let [isLiked, setLiked] = useState(liked || false);
 
   let cal_time = timeAgoString(time);
 
+  let rotate = index! % 2 == 0 ? -1 : 1;
+
   return (
     <div className="feed max-w-[600px] px-2 py-4 space-y-2">
         <div><div className="inline border-b text-primary">{name}</div> posted {cal_time}</div>
         <div className="h-fit w-full py-2 box-border">
-          <img src="/image.png" className="-rotate-2 max-w-full w-[100%] rounded-lg" alt="" />
+          <img src="/image.png" style={{
+            rotate: `${rotate}deg`
+          }} className="max-w-full w-[100%] rounded-lg" alt="" />
         </div>
         <div className="flex space-x-4 items-center">
           <div className="like flex space-x-1 items-center">

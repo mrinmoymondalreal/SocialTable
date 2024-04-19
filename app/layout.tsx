@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import "./globals.css";
 import Header from "@/components/header";
+import { GoogleOAuthProvider } from '@react-oauth/google';
 
 export const metadata: Metadata = {
   title: "Create Next App",
@@ -15,8 +16,10 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className="dark:bg-[#262626] dark:text-white">
-        <Header/>
-        {children}
+        <GoogleOAuthProvider clientId="316672298878-8jpv2m4flr0hmmbpdi1qbgp84roatp11.apps.googleusercontent.com">
+          <Header/>
+          {children}
+        </GoogleOAuthProvider>
       </body>
     </html>
   );
