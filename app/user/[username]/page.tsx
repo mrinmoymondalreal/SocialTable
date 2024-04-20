@@ -1,3 +1,4 @@
+import PerformLogin from "@/components/PerformLogin";
 import Post from "@/components/Post";
 import { PostType, User } from "@/lib/types";
 import { isUserLoggedIn } from "@/lib/user";
@@ -14,8 +15,6 @@ async function getPosts(id?: number, my_id?: number, limit = 6, offset = 0): Pro
     WHERE users.user_id = ${id}
     LIMIT ${limit} OFFSET ${offset};
     `;
-
-    console.log(resp.rows);
 
     return resp.rows as PostType[];
   } catch (error) {
@@ -68,6 +67,7 @@ export default async function Page({ params }: { params: { username: string } })
               key={i}
               id={post_id}
               picture={user.picture}
+              postImage={post_image}
             />)}
           </div>
         </> : "No Profile found with this username"

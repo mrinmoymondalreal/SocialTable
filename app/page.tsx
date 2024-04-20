@@ -54,6 +54,7 @@ export default async function Home() {
             index={i}
             key={i}
             id={post_id}
+            postImage={post_image}
             picture={picture}
           />)}
         </div>

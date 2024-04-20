@@ -15,9 +15,10 @@ type PostProps = {
   index?: number,
   picture: string,
   id: number;
+  postImage: string;
 };
 
-export default function Post({ name, time, liked, noLike, noComment, caption, index, picture, id }: PostProps){
+export default function Post({ name, time, liked, noLike, noComment, caption, index, picture, id, postImage }: PostProps){
 
   let [isLiked, setLiked] = useState(liked || false);
 
@@ -36,7 +37,7 @@ export default function Post({ name, time, liked, noLike, noComment, caption, in
           </div>
           <div className="inline border-b text-primary"><Link href={"/user/"+name}>{name}</Link></div>&nbsp;posted {cal_time}</div>
         <div className="h-fit w-full py-2 box-border">
-          <img src="/image.png" style={{
+          <img src={postImage} style={{
             rotate: `${rotate}deg`
           }} className="max-w-full w-[100%] rounded-lg" alt={`Posted by ${name} | ${caption}`} />
         </div>
