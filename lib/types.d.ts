@@ -28,3 +28,14 @@ export type PostType = {
   is_liked: boolean;
   picture: string;
 }
+
+export type CommentType = {
+  post_id: number;
+  user_id: number;
+  content: string ;
+  created_at: Date;
+  picture: string;
+  username: string;
+  comment_id: number;
+}
+

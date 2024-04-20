@@ -34,3 +34,31 @@ export async function Addlike(formData: FormData) {
     }
   }
 }
+
+export async function AddComment(formData: FormData) {
+  let post_id: number = Number(formData.get('post_id')), comment = formData.get('comment') as string;
+  let user = await  isUserLoggedIn();
+  console.log(comment)
+  if(user && user.id && (comment && comment.trim().length > 0)){
+    let r = await sql`INSERT INTO comments (post_id, user_id, content)
+    VALUES (${post_id}, ${user.id}, ${comment}) RETURNING comment_id;`;
+
+    if(r.rows[0] && (r.rows as {comment_id:number}[])[0].comment_id){
+      await sql`UPDATE posts
+      SET comments = comments + 1
+      WHERE posts.post_id = ${post_id}`;
+    }
+    // if(isLike){
+    // }else{
+    //   // await sql`DELETE FROM likes
+    //   // WHERE post_id = ${post_id} AND user_id = ${user.id};`;
+    //   // await sql`UPDATE posts
+    //   // SET likes = CASE
+    //   //                WHEN likes - 1 < 0 THEN 0
+    //   //                ELSE likes - 1
+    //   //             END
+    //   // WHERE post_id = ${post_id}`;
+    // }
+  }
+}
+
