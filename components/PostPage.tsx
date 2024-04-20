@@ -19,12 +19,6 @@ export default function PostPage({ post, comments: _comments, self, post_id }: P
 
   let commentRef = useRef<HTMLInputElement>(null);
 
-  useEffect(()=>{
-    return ()=>{
-      (commentRef.current as HTMLInputElement).value = "";
-    }
-  });
-
   return (
   <main className="mt-4 flex flex-col items-center gap-y-4 px-4">
       {
