@@ -1,3 +1,5 @@
+import { addFollowing } from "@/app/actions";
+import FollowButton from "@/components/FollowButton";
 import PerformLogin from "@/components/PerformLogin";
 import Post from "@/components/Post";
 import { PostType, User } from "@/lib/types";
@@ -31,11 +33,18 @@ async function getUser(username: string): Promise<User>{
   return resp.rows[0] as User;
 }
 
+async function isFollowing(id: number, self_id: number){
+  let resp = await sql`SELECT relationship_id from user_relationships WHERE follower_id = ${self_id} AND following_id = ${id} LIMIT 1`;
+  return resp.rows[0];
+}
+
 export default async function Page({ params }: { params: { username: string } }) {
 
   let user = await getUser(params.username);
   let self = user && await isUserLoggedIn();
   let posts = user && await getPosts(user.id, self?.id);
+
+  let isfollowing = self && user && await isFollowing(user?.id, self?.id);
 
   return (
     <main className="mt-4 flex flex-col items-center gap-y-4 px-4">
@@ -45,12 +54,18 @@ export default async function Page({ params }: { params: { username: string } })
             <div className="flex w-full space-x-4 items-center">
               <div className="image w-24 aspect-square overflow-hidden rounded-full">
                   <img src={user.picture} alt="" />
-                  fdklfdjkl
               </div>
               <div>
                 <p className="name">{user.name} | {user.posts} Post</p>
                 <div className="username">{user.username}</div>
                 <div className="follow">{user.followers} Followers | {user.following} Following</div>
+                <form action={addFollowing} className="mt-2">
+                  <input type="hidden" name="followed_user_id" defaultValue={user.id} />
+                  {
+                    self.id == user.id ? "" :  
+                      <FollowButton isfollowing={!!isfollowing} />
+                  }
+                </form>
               </div>
             </div>
           </div>

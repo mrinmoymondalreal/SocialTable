@@ -38,7 +38,6 @@ export async function Addlike(formData: FormData) {
 export async function AddComment(formData: FormData) {
   let post_id: number = Number(formData.get('post_id')), comment = formData.get('comment') as string;
   let user = await  isUserLoggedIn();
-  console.log(comment)
   if(user && user.id && (comment && comment.trim().length > 0)){
     let r = await sql`INSERT INTO comments (post_id, user_id, content)
     VALUES (${post_id}, ${user.id}, ${comment}) RETURNING comment_id;`;
@@ -62,3 +61,31 @@ export async function AddComment(formData: FormData) {
   }
 }
 
+
+export async function addFollowing(formData: FormData){
+  let followed_user_id = formData.get('followed_user_id') as string;
+  let user = await  isUserLoggedIn();
+  if(user && followed_user_id.trim().length > 0 && !(user.id == Number(followed_user_id))){
+    let resp = await sql`INSERT INTO user_relationships (follower_id, following_id) VALUES (${user.id}, ${followed_user_id}) 
+    ON CONFLICT (follower_id, following_id) DO NOTHING
+    RETURNING relationship_id`;
+
+    if(!resp.rows[0]){
+      await sql`DELETE from user_relationships WHERE follower_id = ${user.id} AND following_id = ${followed_user_id}`;
+      await sql`UPDATE users
+        SET following = following - 1 
+        WHERE user_id = ${user.id}`;
+    await sql`UPDATE users
+        SET followers = followers - 1
+        WHERE user_id = ${followed_user_id}`;
+      return ;
+    }
+
+    await sql`UPDATE users
+        SET following = following + 1
+        WHERE user_id = ${user.id}`;
+    await sql`UPDATE users
+        SET followers = followers + 1
+        WHERE user_id = ${followed_user_id}`;
+  }
+}
