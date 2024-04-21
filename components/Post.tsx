@@ -4,6 +4,7 @@ import { Addlike } from '@/app/actions';
 import { timeAgoString } from '@/lib/utils';
 import Link from 'next/link';
 import { useEffect, useState } from 'react';
+import ImageComponent from './Image';
 
 type PostProps = {
   name: string;
@@ -17,6 +18,14 @@ type PostProps = {
   id: number;
   postImage: string;
 };
+
+function ImageFallback(){
+  return (
+    <div className="w-[500px] rounded-md aspect-video bg-black/10 overflow-hidden">
+      <div className="rotate-12 w-24 bg-white/10 h-[150%] -translate-y-12 -translate-x-[250%] blur-3xl animate-pos"></div>
+    </div>
+  );
+}
 
 export default function Post({ name, time, liked, noLike, noComment, caption, index, picture, id, postImage }: PostProps){
 
@@ -37,7 +46,7 @@ export default function Post({ name, time, liked, noLike, noComment, caption, in
           </div>
           <div className="inline border-b text-primary"><Link href={"/user/"+name}>{name}</Link></div>&nbsp;posted {cal_time}</div>
         <div className="h-fit w-full py-2 box-border">
-          <img src={postImage} style={{
+          <ImageComponent fallback={<ImageFallback/>} src={postImage} style={{
             rotate: `${rotate}deg`
           }} className="max-w-full w-[100%] rounded-lg" alt={`Posted by ${name} | ${caption}`} />
         </div>

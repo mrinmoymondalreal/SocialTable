@@ -9,3 +9,12 @@ html{
   font-weight: 400;
   font-style: normal;
 }
+
+@keyframes pos {
+  0% { translate: 0%; }
+  100% { translate: 1000%; }
+}
+
+.animate-pos {
+  animation: pos 2s ease-in-out infinite;
+}

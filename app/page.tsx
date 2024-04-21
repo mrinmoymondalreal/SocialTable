@@ -46,7 +46,8 @@ export default async function Home() {
         <>
         <div className="heading text-3xl">your feed</div>
         <div className="feed space-y-3">
-          {posts && posts?.map(({ post_image, post_id, content, comments, likes, picture, username, created_at, is_liked }, i)=><Post
+          {posts && posts?.map(({ post_image, post_id, content, comments, likes, picture, username, created_at, is_liked }, i)=>
+          <Post
             name={username}
             caption={content}
             noComment={comments}
