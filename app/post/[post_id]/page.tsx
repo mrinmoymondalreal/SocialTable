@@ -14,7 +14,7 @@ async function getPost(id?: string, my_id?: number): Promise<PostType | null>{
     FROM posts
     JOIN users ON posts.user_id = users.user_id
     LEFT JOIN likes ON posts.post_id = likes.post_id AND likes.user_id = ${my_id}
-    WHERE users.user_id = ${id}
+    WHERE posts.post_id = ${id}
     LIMIT 1
     `;
     return resp.rows[0] as PostType;
