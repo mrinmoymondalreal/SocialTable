@@ -89,3 +89,18 @@ export async function addFollowing(formData: FormData){
         WHERE user_id = ${followed_user_id}`;
   }
 }
+
+export async function createPost(formData: FormData){
+  let content = formData.get('content') as string;
+  let picture = formData.get('picture_url') as string;
+  let user = await isUserLoggedIn();
+
+  if(user && picture && content && picture.trim().length > 0){
+    let resp = await sql`INSERT INTO posts (user_id, content, post_image) VALUES (${user.id}, ${content || ""}, ${picture}) RETURNING post_id`;
+    if(resp.rows[0]){
+      await sql`UPDATE users
+      SET posts = posts + 1
+      WHERE user_id = ${user.id}`;
+    }
+  }
+}

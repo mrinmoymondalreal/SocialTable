@@ -9,7 +9,7 @@ export default async function Header({ isLogged }: { isLogged?: boolean }){
     flex items-center
     border-b border-gray-800 dark:border-gray-400">
       
-      <div className="flex-shrink ml-4 flex justify-center items-center">
+      <div className="flex-shrink-0 ml-4 flex justify-center items-center">
         <div className="w-8 h-8 rounded-full overflow-hidden">
           <img src={user?.picture} alt="" />
         </div>
@@ -19,7 +19,7 @@ export default async function Header({ isLogged }: { isLogged?: boolean }){
         <div className="text-primary"><Link href="/">SocialTable</Link></div>
         &nbsp;|&nbsp;
         <div className="group">
-          { user ? <Link href={"/user/"+user.username}>{user.name}</Link> : "Welcome" }
+          { user ? <Link href={"/user/"+user.username} className="md:text-base text-xs">{user.name}</Link> : "Welcome" }
           <div className="absolute w-fit p-2 bg-[#262626] 
           border-2 border-white 
           mt-4 shadow-lg rounded-md

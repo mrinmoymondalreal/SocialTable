@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import "./globals.css";
 import Header from "@/components/header";
 import { GoogleOAuthProvider } from '@react-oauth/google';
+import Link from "next/link";
 
 export const metadata: Metadata = {
   title: "Create Next App",
@@ -19,6 +20,10 @@ export default function RootLayout({
         <GoogleOAuthProvider clientId={process.env.NEXT_PUBLIC_CLIENT_ID || ""}>
           <Header/>
           {children}
+          <Link href="/upload" className="fixed bottom-0 right-0 w-12 md:w-16 h-12 md:h-16 bg-primary text-white p-2 rounded-full mb-4 mr-4" >
+            <img src="/uploadbtn.svg" alt="" />
+          </Link>
+          
         </GoogleOAuthProvider>
       </body>
     </html>
