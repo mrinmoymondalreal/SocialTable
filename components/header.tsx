@@ -5,6 +5,7 @@ import Link from "next/link";
 export default async function Header({ isLogged }: { isLogged?: boolean }){
   let user = await isUserLoggedIn();
   return (
+    <>
     <div id="header" className="w-full h-[44px] 
     flex items-center
     border-b border-gray-800 dark:border-gray-400">
@@ -36,7 +37,12 @@ export default async function Header({ isLogged }: { isLogged?: boolean }){
           user ? <Logout/> : <Link href="/">Login</Link>
         }
       </div>
-
     </div>
+    {
+      user && <Link href="/upload" className="fixed bottom-0 right-0 w-12 md:w-16 h-12 md:h-16 bg-primary text-white p-2 rounded-full mb-4 mr-4" >
+        <img src="/uploadbtn.svg" alt="" />
+      </Link>
+    }
+    </>
   );
 }

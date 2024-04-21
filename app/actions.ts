@@ -96,7 +96,9 @@ export async function createPost(formData: FormData){
   let user = await isUserLoggedIn();
 
   if(user && picture && content && picture.trim().length > 0){
+    // console.log(user, content, picture);
     let resp = await sql`INSERT INTO posts (user_id, content, post_image) VALUES (${user.id}, ${content || ""}, ${picture}) RETURNING post_id`;
+
     if(resp.rows[0]){
       await sql`UPDATE users
       SET posts = posts + 1
