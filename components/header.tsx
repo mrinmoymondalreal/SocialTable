@@ -30,9 +30,10 @@ export default async function Header({ isLogged }: { isLogged?: boolean }){
         </div>
       </div>
 
-      <div className="flex-shrink mr-4">
+      <div className="flex-shrink mr-4 flex items-center space-x-2">
+      <Link href="/search" className="dark:text-white border dark:border-white rounded-md px-2">Search</Link>
         {
-          user && <Logout/>
+          user ? <Logout/> : <Link href="/">Login</Link>
         }
       </div>
 

@@ -1,6 +1,7 @@
 'use client';
 
 import { User } from "@/lib/types";
+import { Metadata } from "next";
 import Link from "next/link";
 import { useRef, useState } from "react";
 

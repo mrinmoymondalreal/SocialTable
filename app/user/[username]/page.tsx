@@ -90,3 +90,10 @@ export default async function Page({ params }: { params: { username: string } })
     </main>
   );
 }
+
+
+export async function generateMetadata({ params }: { params: { username: string } }) {
+  return {
+    title: params.username,
+  };
+}

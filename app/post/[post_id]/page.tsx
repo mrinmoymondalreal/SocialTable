@@ -4,6 +4,7 @@ import PostPage from "@/components/PostPage";
 import { CommentType, PostType, User } from "@/lib/types";
 import { isUserLoggedIn } from "@/lib/user";
 import { sql } from '@vercel/postgres';
+import { Metadata } from "next";
 
 async function getPost(id?: string, my_id?: number): Promise<PostType | null>{
   if(!id) return null;
@@ -46,3 +47,7 @@ export default async function Page({ params }: { params: { post_id: string } }) 
 
   return <PostPage self={self} comments={comments} post={post} post_id={params.post_id} />;
 }
+
+export const metadata: Metadata = {
+  title: "Post",
+};

@@ -3,6 +3,8 @@ import Post from "@/components/Post";
 import { PostType } from "@/lib/types";
 import { isUserLoggedIn } from "@/lib/user";
 import { sql } from '@vercel/postgres';
+import { Metadata } from "next";
+import { cookies } from "next/headers";
 
 async function getPosts(id?: number, limit = 6, offset = 0): Promise<PostType[] | null>{
   if(!id) return null;
@@ -63,3 +65,7 @@ export default async function Home() {
     </main>
   );
 }
+
+export const metadata: Metadata = {
+  title: cookies().get('token')?.value ? "Feed" : "Home",
+};
