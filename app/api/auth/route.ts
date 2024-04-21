@@ -19,7 +19,6 @@ export async function GET(request: NextRequest){
     SET name = EXCLUDED.name,
     picture = EXCLUDED.picture
     RETURNING *`;
-    console.log(user, resp);
     user.followers = resp.rows[0].followers;
     user.following = resp.rows[0].following;
     user.posts = resp.rows[0].posts;

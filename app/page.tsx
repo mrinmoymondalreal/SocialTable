@@ -67,5 +67,5 @@ export default async function Home() {
 }
 
 export const metadata: Metadata = {
-  title: cookies().get('token')?.value ? "Feed" : "Home",
+  title: "Home",
 };
