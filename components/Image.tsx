@@ -1,4 +1,4 @@
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 
 type Props = {
   src: string;
@@ -8,25 +8,34 @@ type Props = {
 
 export default function ImageComponent({ src, fallback, alt, ...props }: Props){
   let imageRef = useRef<HTMLImageElement>(null);
-  let fallParent = useRef<HTMLDivElement>(null);
+
+  let [showImage, setShowImage] = useState<null | string>(null);
 
   useEffect(()=>{
-    let _image = new Image();
-    imageRef.current!.style.display = 'none';
-    imageRef.current!.style.overflow = 'hidden';
-    let imageElement = imageRef.current;
-    _image.onload = function(e){
-      imageElement!.src = _image.src;
+    let controller = new AbortController();
+    let signal = controller.signal;
+    const myHeaders = new Headers();
+    myHeaders.append("Accept", "image/jpeg");
+    fetch(src, {
+      signal,
+      method: "GET",
+      headers: myHeaders,
+      mode: "cors",
+      cache: "default",
+    }).then(e=>e.blob()).then(async blob=>{
+      let src = URL.createObjectURL(blob);
+      setShowImage(src);
+    }).catch(err => {
+      
+    });
+    return ()=>{
+      controller.abort();
     }
-    fallParent.current!.style.display = 'none';
-    imageRef.current!.style.display = '';
-    _image.src = src;
   }, []);
 
   return (
     <>
-      <div ref={fallParent} className="w-full">{fallback}</div>
-      <img ref={imageRef} alt={alt} {...props} />
+      {!showImage ? fallback : <img src={showImage} alt={alt} {...props} />}
     </>
   );
 }

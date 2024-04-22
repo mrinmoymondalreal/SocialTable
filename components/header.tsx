@@ -39,7 +39,8 @@ export default async function Header({ isLogged }: { isLogged?: boolean }){
       </div>
     </div>
     {
-      user && <Link href="/upload" className="fixed bottom-0 right-0 w-12 md:w-16 h-12 md:h-16 bg-primary text-white p-2 rounded-full mb-4 mr-4" >
+      user && 
+      <Link href="/upload" className="fixed z-50 bottom-0 right-0 w-12 md:w-16 h-12 md:h-16 bg-primary text-white p-2 rounded-full mb-4 mr-4" >
         <img src="/uploadbtn.svg" alt="" />
       </Link>
     }

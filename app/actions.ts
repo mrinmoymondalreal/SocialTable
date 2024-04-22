@@ -2,6 +2,7 @@
 
 import { isUserLoggedIn } from "@/lib/user"
 import { sql } from '@vercel/postgres';
+import { redirect } from "next/navigation";
 
 function stringToBool(str: string): boolean{
   return str.toLowerCase() == 'true' ? true : false;
@@ -90,13 +91,12 @@ export async function addFollowing(formData: FormData){
   }
 }
 
-export async function createPost(formData: FormData){
+export async function createPost(formData: FormData, picture: string){
   let content = formData.get('content') as string;
-  let picture = formData.get('picture_url') as string;
   let user = await isUserLoggedIn();
 
+  console.log(user, picture, content);
   if(user && picture && content && picture.trim().length > 0){
-    // console.log(user, content, picture);
     let resp = await sql`INSERT INTO posts (user_id, content, post_image) VALUES (${user.id}, ${content || ""}, ${picture}) RETURNING post_id`;
 
     if(resp.rows[0]){
@@ -104,5 +104,7 @@ export async function createPost(formData: FormData){
       SET posts = posts + 1
       WHERE user_id = ${user.id}`;
     }
+
+    redirect('/');
   }
 }
