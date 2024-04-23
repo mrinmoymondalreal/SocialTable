@@ -21,7 +21,7 @@ type PostProps = {
 
 function ImageFallback(){
   return (
-    <div className="w-[500px] rounded-md aspect-video bg-black/10 overflow-hidden">
+    <div className="max-w-[500px] w-[100%] rounded-md aspect-video bg-black/10 overflow-hidden">
       <div className="rotate-12 w-24 bg-white/10 h-[150%] -translate-y-12 -translate-x-[250%] blur-3xl animate-pos"></div>
     </div>
   );
