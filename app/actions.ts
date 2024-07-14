@@ -1,8 +1,9 @@
 'use server'
 
-import { isUserLoggedIn } from "@/lib/user"
 import { sql } from '@vercel/postgres';
 import { redirect } from "next/navigation";
+import { getNextServerSession } from './api/auth/[...nextauth]/route';
+import { User } from '@/lib/types';
 
 function stringToBool(str: string): boolean{
   return str.toLowerCase() == 'true' ? true : false;
@@ -10,7 +11,7 @@ function stringToBool(str: string): boolean{
 
 export async function Addlike(formData: FormData) {
   let isLike: boolean = !stringToBool(formData.get('islike')?.toString()!), post_id: number = Number(formData.get('post_id'));
-  let user = await  isUserLoggedIn();
+  let user = (await getNextServerSession())?.user as User;
   if(user && user.id){
     if(isLike){
       let r = await sql`INSERT INTO likes (post_id, user_id)
@@ -38,7 +39,7 @@ export async function Addlike(formData: FormData) {
 
 export async function AddComment(formData: FormData) {
   let post_id: number = Number(formData.get('post_id')), comment = formData.get('comment') as string;
-  let user = await  isUserLoggedIn();
+  let user = (await getNextServerSession())?.user as User;
   if(user && user.id && (comment && comment.trim().length > 0)){
     let r = await sql`INSERT INTO comments (post_id, user_id, content)
     VALUES (${post_id}, ${user.id}, ${comment}) RETURNING comment_id;`;
@@ -65,7 +66,7 @@ export async function AddComment(formData: FormData) {
 
 export async function addFollowing(formData: FormData){
   let followed_user_id = formData.get('followed_user_id') as string;
-  let user = await  isUserLoggedIn();
+  let user = (await getNextServerSession())?.user as User;
   if(user && followed_user_id.trim().length > 0 && !(user.id == Number(followed_user_id))){
     let resp = await sql`INSERT INTO user_relationships (follower_id, following_id) VALUES (${user.id}, ${followed_user_id}) 
     ON CONFLICT (follower_id, following_id) DO NOTHING
@@ -93,7 +94,7 @@ export async function addFollowing(formData: FormData){
 
 export async function createPost(formData: FormData, picture: string){
   let content = formData.get('content') as string;
-  let user = await isUserLoggedIn();
+  let user = (await getNextServerSession())?.user as User;
 
   console.log(user, picture, content);
   if(user && picture && content && picture.trim().length > 0){
