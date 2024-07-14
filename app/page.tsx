@@ -3,6 +3,7 @@ import { PostType, User } from "@/lib/types";
 import { sql } from "@vercel/postgres";
 import { Metadata } from "next";
 import { getNextServerSession } from "@/lib/user";
+import NonLogged from "@/components/NonLoggedScreen";
 
 async function getPosts(
   id?: number,
@@ -40,14 +41,15 @@ async function getPosts(
 export default async function Home() {
   let session = await getNextServerSession();
 
-  if (!session?.user) return "";
+  // if (!session?.user) return "";
 
-  let user = session.user as User;
+  let user = session?.user as User;
 
   let posts = await getPosts(user?.id);
 
   return (
     <main className="mt-4 flex flex-col items-center gap-y-4 px-4">
+      {!user && <NonLogged />}
       {user && (
         <>
           <div className="heading text-3xl">your feed</div>
