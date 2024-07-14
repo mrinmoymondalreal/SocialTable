@@ -1,8 +1,8 @@
 import { sql } from "@vercel/postgres";
-import NextAuth, { getServerSession, NextAuthOptions } from "next-auth"
-import Google from "next-auth/providers/google"
+import NextAuth, { NextAuthOptions } from "next-auth"
+import Google from "next-auth/providers/google";
 
-export const authOptions: NextAuthOptions = {
+const authOptions: NextAuthOptions = {
   providers: [
     Google({
       clientId: process.env.GOOGLE_CLIENT_ID ?? "",
@@ -47,5 +47,4 @@ const handler = NextAuth(authOptions);
 
 export { handler as GET, handler as POST }
 
-export const getNextServerSession = () => getServerSession(authOptions);
 

@@ -1,5 +1,5 @@
 import { addFollowing } from "@/app/actions";
-import { getNextServerSession } from "@/app/api/auth/[...nextauth]/route";
+import { getNextServerSession } from "@/lib/user";
 import FollowButton from "@/components/FollowButton";
 import Post from "@/components/Post";
 import { PostType, User } from "@/lib/types";
@@ -100,8 +100,6 @@ export default async function Page({
                     content,
                     comments,
                     likes,
-                    picture,
-                    username,
                     created_at,
                     is_liked,
                   },

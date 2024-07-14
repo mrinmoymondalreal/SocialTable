@@ -2,7 +2,7 @@ import Post from "@/components/Post";
 import { PostType, User } from "@/lib/types";
 import { sql } from "@vercel/postgres";
 import { Metadata } from "next";
-import { getNextServerSession } from "./api/auth/[...nextauth]/route";
+import { getNextServerSession } from "@/lib/user";
 
 async function getPosts(
   id?: number,

@@ -1,5 +1,5 @@
 import { AddComment } from "@/app/actions";
-import { getNextServerSession } from "@/app/api/auth/[...nextauth]/route";
+import { getNextServerSession } from "@/lib/user";
 import Post from "@/components/Post";
 import PostPage from "@/components/PostPage";
 import { CommentType, PostType, User } from "@/lib/types";

@@ -2,7 +2,7 @@
 
 import { sql } from '@vercel/postgres';
 import { redirect } from "next/navigation";
-import { getNextServerSession } from './api/auth/[...nextauth]/route';
+import { getNextServerSession } from '@/lib/user';
 import { User } from '@/lib/types';
 
 function stringToBool(str: string): boolean{
